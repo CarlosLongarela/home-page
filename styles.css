@@ -60,15 +60,11 @@
    Dark Theme
    ============================================ */
 [data-theme="dark"] {
-  --color-bg: #0f172a;
-  --color-surface: #1e293b;
   --color-text: #e2e8f0;
   --color-text-secondary: #94a3b8;
   --color-border: #334155;
   --color-shadow: rgba(0, 0, 0, 0.3);
   --color-shadow-hover: rgba(0, 0, 0, 0.5);
-  --color-header-bg: rgba(15, 23, 42, 0.85);
-  --color-input-bg: #0f172a;
   --color-footer-text: #475569;
   --color-clock-text: #1e293b;
 }
@@ -229,6 +225,43 @@ a {
 }
 
 /* ============================================
+   Header Button (reload, etc.)
+   ============================================ */
+.header-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-input-bg);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: 0;
+  flex-shrink: 0;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.header-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.header-btn:hover {
+  border-color: var(--palette-accent);
+  color: var(--palette-accent);
+}
+
+.header-btn--spin svg {
+  animation: spin 600ms ease;
+}
+
+@keyframes spin {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+
+/* ============================================
    Palette Switcher
    ============================================ */
 .palette-switcher {
@@ -349,6 +382,16 @@ a {
   color: var(--color-text);
 }
 
+.card__body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--transition-base);
+}
+
+.card--collapsed .card__body {
+  grid-template-rows: 0fr;
+}
+
 .card__links {
   list-style: none;
   padding: var(--space-sm) var(--space-lg) var(--space-lg);
@@ -356,18 +399,14 @@ a {
   flex-direction: column;
   gap: var(--space-xs);
   overflow: hidden;
-  transition: grid-template-rows var(--transition-base), opacity var(--transition-base), padding var(--transition-base);
+  min-height: 0;
+  transition: opacity var(--transition-base), padding var(--transition-base);
 }
 
 .card--collapsed .card__links {
   padding-top: 0;
   padding-bottom: 0;
-  max-height: 0;
   opacity: 0;
-}
-
-.card:not(.card--collapsed) .card__links {
-  max-height: 500px;
 }
 
 .card__link {

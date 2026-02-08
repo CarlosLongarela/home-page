@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Página de Inicio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%23f59e0b'/></linearGradient></defs><rect width='80' height='80' x='10' y='10' rx='18' fill='url(%23g)'/><text x='50' y='68' font-size='48' font-weight='bold' text-anchor='middle' fill='white' font-family='system-ui'>H</text></svg>">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,6 +25,12 @@
         >
       </div>
       <div class="palette-switcher" id="palette-switcher"></div>
+      <button class="header-btn" id="reload-btn" aria-label="Recargar configuración" title="Recargar bookmarks.md">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+      </button>
       <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
         <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/>

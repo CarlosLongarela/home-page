@@ -297,6 +297,7 @@ a {
 .grid {
   display: grid;
   grid-template-columns: var(--grid-columns);
+  align-items: start;
   gap: var(--space-lg);
   padding: var(--space-xl);
   max-width: 1600px;

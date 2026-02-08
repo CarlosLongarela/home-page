@@ -8,6 +8,8 @@ Aplicación de página de inicio para el navegador que muestra enlaces organizad
 - **Tema claro/oscuro** - Toggle manual y detección automática de la preferencia del sistema, con persistencia en `localStorage`
 - **Paletas de color** - 4 esquemas de color (Oceano, Rosa, Bosque, Atardecer) seleccionables desde el header
 - **Enlace de edición** - El pie de página enlaza directamente al archivo `bookmarks.md` en GitHub (configurable)
+- **Tarjetas colapsables** - Click en el título de una tarjeta para abrir/cerrar su contenido. El estado se persiste en `localStorage`
+- **Reordenación con arrastrar** - Arrastra las tarjetas desde su título para recolocarlas. El orden se guarda en `localStorage`
 - **Búsqueda en tiempo real** - Filtra enlaces por nombre o URL. Atajo `/` para enfocar el buscador, `Escape` para limpiar
 - **Diseño responsive** - Grid adaptable a cualquier tamaño de pantalla
 - **Favicons automáticos** - Muestra el icono de cada sitio web
@@ -98,9 +100,27 @@ home-page/
 └── README.md
 ```
 
+## Interacciones
+
+| Acción | Efecto |
+|---|---|
+| Click en título de tarjeta | Abre/cierra el contenido de la tarjeta |
+| Arrastrar desde título de tarjeta | Reordena las tarjetas (se guarda automáticamente) |
+
 ## Atajos de teclado
 
 | Atajo | Acción |
 |---|---|
 | `/` | Enfocar el buscador |
 | `Escape` | Limpiar búsqueda y desenfocar |
+
+## Persistencia
+
+Todo el estado del usuario se guarda en `localStorage` del navegador:
+
+| Clave | Contenido |
+|---|---|
+| `theme` | Tema claro/oscuro seleccionado |
+| `palette` | Paleta de color activa |
+| `collapsed` | Tarjetas colapsadas (por sección) |
+| `cardOrder` | Orden personalizado de las tarjetas |

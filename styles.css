@@ -287,10 +287,14 @@ a {
   container-type: inline-size;
 }
 
-.card:hover {
+.card:not(.card--dragging):not(.card--placeholder):hover {
   translate: 0 -2px;
   box-shadow: 0 8px 24px var(--color-shadow-hover);
   border-color: color-mix(in srgb, var(--card-color) 40%, var(--color-border));
+}
+
+.card--collapsed .card__header {
+  padding-bottom: var(--space-lg);
 }
 
 .card__header {
@@ -299,6 +303,34 @@ a {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.card__header:hover .card__title {
+  color: var(--card-color);
+}
+
+.card__chevron {
+  margin-left: auto;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  transition: rotate var(--transition-base);
+  display: grid;
+  place-items: center;
+}
+
+.card__chevron svg {
+  width: 100%;
+  height: 100%;
+}
+
+.card--collapsed .card__chevron {
+  rotate: -90deg;
 }
 
 .card__color-dot {
@@ -323,6 +355,19 @@ a {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  overflow: hidden;
+  transition: grid-template-rows var(--transition-base), opacity var(--transition-base), padding var(--transition-base);
+}
+
+.card--collapsed .card__links {
+  padding-top: 0;
+  padding-bottom: 0;
+  max-height: 0;
+  opacity: 0;
+}
+
+.card:not(.card--collapsed) .card__links {
+  max-height: 500px;
 }
 
 .card__link {
@@ -373,6 +418,29 @@ a {
 /* Highlight for search matches */
 .card__link--match {
   background: color-mix(in srgb, var(--card-color) 6%, transparent);
+}
+
+/* ============================================
+   Drag & Drop
+   ============================================ */
+.card--dragging {
+  position: fixed;
+  z-index: 1000;
+  rotate: 2deg;
+  scale: 1.03;
+  opacity: 0.9;
+  box-shadow: 0 16px 48px var(--color-shadow-hover);
+  pointer-events: none;
+  transition: none;
+  animation: none;
+}
+
+.card--placeholder {
+  background: color-mix(in srgb, var(--palette-accent) 8%, transparent);
+  border: 2px dashed var(--palette-accent);
+  border-radius: var(--radius-xl);
+  opacity: 0.5;
+  animation: none;
 }
 
 /* ============================================

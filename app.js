@@ -132,8 +132,14 @@ function render(data) {
     card.style.setProperty('--card-color', section.color);
     card.dataset.section = section.name.toLowerCase();
 
+    const sectionId = section.name.toLowerCase().replace(/\s+/g, '-');
+    card.dataset.sectionId = sectionId;
+
     const header = document.createElement('div');
     header.className = 'card__header';
+    header.setAttribute('role', 'button');
+    header.setAttribute('tabindex', '0');
+    header.setAttribute('aria-expanded', 'true');
 
     const dot = document.createElement('span');
     dot.className = 'card__color-dot';
@@ -142,7 +148,11 @@ function render(data) {
     titleH2.className = 'card__title';
     titleH2.textContent = section.name;
 
-    header.append(dot, titleH2);
+    const chevron = document.createElement('span');
+    chevron.className = 'card__chevron';
+    chevron.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+    header.append(dot, titleH2, chevron);
 
     const linksList = document.createElement('ul');
     linksList.className = 'card__links';
@@ -176,6 +186,244 @@ function render(data) {
     card.append(header, linksList);
     grid.append(card);
   }
+
+  // Apply saved collapse states
+  applyCollapseStates();
+
+  // Apply saved card order
+  applySavedOrder();
+}
+
+// ============================================
+// Collapse / Expand Cards
+// ============================================
+
+function getCollapseStates() {
+  try {
+    return JSON.parse(localStorage.getItem('collapsed') || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function saveCollapseState(sectionId, collapsed) {
+  const states = getCollapseStates();
+  if (collapsed) {
+    states[sectionId] = true;
+  } else {
+    delete states[sectionId];
+  }
+  localStorage.setItem('collapsed', JSON.stringify(states));
+}
+
+function applyCollapseStates() {
+  const states = getCollapseStates();
+  for (const card of document.querySelectorAll('.card')) {
+    const id = card.dataset.sectionId;
+    if (states[id]) {
+      card.classList.add('card--collapsed');
+      card.querySelector('.card__header')?.setAttribute('aria-expanded', 'false');
+    }
+  }
+}
+
+function setupCollapse() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+
+  grid.addEventListener('click', (e) => {
+    const header = e.target.closest('.card__header');
+    if (!header) return;
+
+    // Don't collapse if clicking a link inside header (future-proof)
+    if (e.target.closest('a')) return;
+
+    const card = header.closest('.card');
+    if (!card) return;
+
+    const isCollapsed = card.classList.toggle('card--collapsed');
+    header.setAttribute('aria-expanded', String(!isCollapsed));
+    saveCollapseState(card.dataset.sectionId, isCollapsed);
+  });
+
+  // Keyboard support
+  grid.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const header = e.target.closest('.card__header');
+      if (header) {
+        e.preventDefault();
+        header.click();
+      }
+    }
+  });
+}
+
+// ============================================
+// Drag & Drop Reorder
+// ============================================
+
+function getSavedOrder() {
+  try {
+    return JSON.parse(localStorage.getItem('cardOrder') || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function saveCurrentOrder() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+  const order = [...grid.querySelectorAll('.card')].map((c) => c.dataset.sectionId);
+  localStorage.setItem('cardOrder', JSON.stringify(order));
+}
+
+function applySavedOrder() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+
+  const order = getSavedOrder();
+  if (!order.length) return;
+
+  const cards = new Map();
+  for (const card of grid.querySelectorAll('.card')) {
+    cards.set(card.dataset.sectionId, card);
+  }
+
+  for (const id of order) {
+    const card = cards.get(id);
+    if (card) grid.append(card);
+  }
+}
+
+function setupDragAndDrop() {
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+
+  let draggedCard = null;
+  let placeholder = null;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+
+  function getCardFromEvent(e) {
+    return e.target.closest('.card');
+  }
+
+  function createPlaceholder(card) {
+    const el = document.createElement('div');
+    el.className = 'card card--placeholder';
+    el.style.height = `${card.offsetHeight}px`;
+    return el;
+  }
+
+  function getInsertPosition(grid, y) {
+    const cards = [...grid.querySelectorAll('.card:not(.card--dragging):not(.card--placeholder)')];
+    for (const card of cards) {
+      const rect = card.getBoundingClientRect();
+      if (y < rect.top + rect.height / 2) {
+        return card;
+      }
+    }
+    return null;
+  }
+
+  // --- Pointer-based drag (works for mouse + touch) ---
+
+  function onPointerDown(e) {
+    const header = e.target.closest('.card__header');
+    if (!header) return;
+    // Ignore if clicking links or buttons inside header
+    if (e.target.closest('a, button')) return;
+
+    const card = header.closest('.card');
+    if (!card) return;
+
+    // Need a small delay / movement threshold to distinguish click from drag
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let started = false;
+
+    function onPointerMove(e2) {
+      const dx = e2.clientX - startX;
+      const dy = e2.clientY - startY;
+
+      if (!started) {
+        // Require 5px movement to start drag
+        if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+        started = true;
+        startDrag(card, startX, startY);
+      }
+
+      moveDrag(e2.clientX, e2.clientY);
+    }
+
+    function onPointerUp(e2) {
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
+
+      if (started) {
+        endDrag();
+      }
+    }
+
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  }
+
+  function startDrag(card, x, y) {
+    draggedCard = card;
+    const rect = card.getBoundingClientRect();
+    dragOffsetX = x - rect.left;
+    dragOffsetY = y - rect.top;
+
+    placeholder = createPlaceholder(card);
+    card.parentNode.insertBefore(placeholder, card);
+
+    card.classList.add('card--dragging');
+    card.style.width = `${rect.width}px`;
+    card.style.left = `${rect.left}px`;
+    card.style.top = `${rect.top}px`;
+
+    document.body.style.userSelect = 'none';
+  }
+
+  function moveDrag(x, y) {
+    if (!draggedCard) return;
+
+    draggedCard.style.left = `${x - dragOffsetX}px`;
+    draggedCard.style.top = `${y - dragOffsetY}px`;
+
+    const insertBefore = getInsertPosition(grid, y);
+    if (insertBefore) {
+      grid.insertBefore(placeholder, insertBefore);
+    } else {
+      grid.append(placeholder);
+    }
+  }
+
+  function endDrag() {
+    if (!draggedCard || !placeholder) return;
+
+    // Insert card where placeholder is
+    grid.insertBefore(draggedCard, placeholder);
+    placeholder.remove();
+
+    draggedCard.classList.remove('card--dragging');
+    draggedCard.style.width = '';
+    draggedCard.style.left = '';
+    draggedCard.style.top = '';
+
+    document.body.style.userSelect = '';
+
+    draggedCard = null;
+    placeholder = null;
+
+    saveCurrentOrder();
+  }
+
+  grid.addEventListener('pointerdown', onPointerDown);
+
+  // Prevent default drag behavior on images/links inside cards
+  grid.addEventListener('dragstart', (e) => e.preventDefault());
 }
 
 // ============================================
@@ -371,6 +619,8 @@ async function init() {
     const markdown = await response.text();
     const data = parseBookmarksMarkdown(markdown);
     render(data);
+    setupCollapse();
+    setupDragAndDrop();
     setupSearch();
   } catch (error) {
     console.error('Error cargando bookmarks:', error);

@@ -23,6 +23,7 @@
           autocomplete="off"
         >
       </div>
+      <div class="palette-switcher" id="palette-switcher"></div>
       <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
         <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/>
@@ -45,7 +46,7 @@
   <main class="grid" id="grid"></main>
 
   <footer class="footer">
-    <p>Edita <code>bookmarks.md</code> para personalizar tus enlaces</p>
+    <p>Edita <a href="#" id="footer-edit-link" class="footer__link" target="_blank" rel="noopener noreferrer" style="display:none"><code>bookmarks.md</code></a><code id="footer-edit-nolink">bookmarks.md</code> para personalizar tus enlaces</p>
   </footer>
 
   <div class="clock" id="clock"></div>

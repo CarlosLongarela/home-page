@@ -48,6 +48,12 @@
 
   /* Grid */
   --grid-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+
+  /* Palette (defaults, overridden by JS) */
+  --palette-accent: #6366f1;
+  --palette-gradient: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+  --palette-focus-color: #6366f1;
+  --palette-focus-shadow: rgba(99, 102, 241, 0.15);
 }
 
 /* ============================================
@@ -120,7 +126,7 @@ a {
   font-size: var(--text-2xl);
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #6366f1, #ec4899, #f59e0b);
+  background: var(--palette-gradient);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -174,8 +180,8 @@ a {
 }
 
 .search-box__input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  border-color: var(--palette-focus-color);
+  box-shadow: 0 0 0 3px var(--palette-focus-shadow);
 }
 
 /* ============================================
@@ -196,8 +202,8 @@ a {
 }
 
 .theme-toggle:hover {
-  border-color: #6366f1;
-  color: #6366f1;
+  border-color: var(--palette-accent);
+  color: var(--palette-accent);
 }
 
 .theme-toggle__icon {
@@ -220,6 +226,36 @@ a {
 [data-theme="dark"] .theme-toggle__icon--moon {
   opacity: 1;
   rotate: 0deg;
+}
+
+/* ============================================
+   Palette Switcher
+   ============================================ */
+.palette-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.palette-btn {
+  --dot-color: #6366f1;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-border);
+  background: var(--dot-color);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color var(--transition-fast), scale var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.palette-btn:hover {
+  scale: 1.15;
+}
+
+.palette-btn--active {
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--dot-color);
 }
 
 /* ============================================
@@ -373,6 +409,20 @@ a {
   border-radius: var(--radius-sm);
   font-size: var(--text-xs);
   border: 1px solid var(--color-border);
+}
+
+.footer__link {
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer__link:hover {
+  color: var(--palette-accent);
+}
+
+.footer__link:hover code {
+  border-color: var(--palette-accent);
+  color: var(--palette-accent);
 }
 
 /* ============================================

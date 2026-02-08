@@ -24,6 +24,7 @@ const BOOKMARKS_FILE = 'bookmarks.md';
 function parseBookmarksMarkdown(markdown) {
   const lines = markdown.split('\n');
   let title = '';
+  let editUrl = '';
   const sections = [];
   let currentSection = null;
 
@@ -34,6 +35,13 @@ function parseBookmarksMarkdown(markdown) {
     const h1Match = trimmed.match(/^#\s+(.+)$/);
     if (h1Match) {
       title = h1Match[1].trim();
+      continue;
+    }
+
+    // Edit URL comment (global, before any section)
+    const editUrlMatch = trimmed.match(/^<!--\s*edit_url:\s*(.+?)\s*-->$/);
+    if (editUrlMatch && !currentSection) {
+      editUrl = editUrlMatch[1].trim();
       continue;
     }
 
@@ -66,7 +74,7 @@ function parseBookmarksMarkdown(markdown) {
     }
   }
 
-  return { title, sections };
+  return { title, editUrl, sections };
 }
 
 // ============================================
@@ -101,6 +109,15 @@ function render(data) {
   if (titleEl && data.title) {
     titleEl.textContent = data.title;
     document.title = data.title;
+  }
+
+  // Set footer edit link
+  const footerLink = document.getElementById('footer-edit-link');
+  const footerNoLink = document.getElementById('footer-edit-nolink');
+  if (data.editUrl && footerLink) {
+    footerLink.href = data.editUrl;
+    footerLink.style.display = '';
+    if (footerNoLink) footerNoLink.style.display = 'none';
   }
 
   // Render cards
@@ -241,6 +258,82 @@ function setupTheme() {
 }
 
 // ============================================
+// Palette Switcher
+// ============================================
+
+const PALETTES = {
+  ocean: {
+    label: 'Oceano',
+    accent: '#6366f1',
+    gradient: 'linear-gradient(135deg, #6366f1, #ec4899, #f59e0b)',
+    focusColor: '#6366f1',
+    focusShadow: 'rgba(99, 102, 241, 0.15)',
+  },
+  rose: {
+    label: 'Rosa',
+    accent: '#e11d48',
+    gradient: 'linear-gradient(135deg, #e11d48, #f472b6, #fb923c)',
+    focusColor: '#e11d48',
+    focusShadow: 'rgba(225, 29, 72, 0.15)',
+  },
+  forest: {
+    label: 'Bosque',
+    accent: '#059669',
+    gradient: 'linear-gradient(135deg, #059669, #34d399, #fbbf24)',
+    focusColor: '#059669',
+    focusShadow: 'rgba(5, 150, 105, 0.15)',
+  },
+  sunset: {
+    label: 'Atardecer',
+    accent: '#ea580c',
+    gradient: 'linear-gradient(135deg, #ea580c, #f59e0b, #eab308)',
+    focusColor: '#ea580c',
+    focusShadow: 'rgba(234, 88, 12, 0.15)',
+  },
+};
+
+function applyPalette(name) {
+  const palette = PALETTES[name];
+  if (!palette) return;
+
+  const root = document.documentElement;
+  root.style.setProperty('--palette-accent', palette.accent);
+  root.style.setProperty('--palette-gradient', palette.gradient);
+  root.style.setProperty('--palette-focus-color', palette.focusColor);
+  root.style.setProperty('--palette-focus-shadow', palette.focusShadow);
+  root.dataset.palette = name;
+
+  // Update active button state
+  document.querySelectorAll('.palette-btn').forEach((btn) => {
+    btn.classList.toggle('palette-btn--active', btn.dataset.palette === name);
+  });
+}
+
+function setupPalette() {
+  const container = document.getElementById('palette-switcher');
+  if (!container) return;
+
+  for (const [name, palette] of Object.entries(PALETTES)) {
+    const btn = document.createElement('button');
+    btn.className = 'palette-btn';
+    btn.dataset.palette = name;
+    btn.setAttribute('aria-label', `Paleta ${palette.label}`);
+    btn.title = palette.label;
+    btn.style.setProperty('--dot-color', palette.accent);
+
+    btn.addEventListener('click', () => {
+      applyPalette(name);
+      localStorage.setItem('palette', name);
+    });
+
+    container.append(btn);
+  }
+
+  const saved = localStorage.getItem('palette') || 'ocean';
+  applyPalette(saved);
+}
+
+// ============================================
 // Clock
 // ============================================
 
@@ -266,6 +359,7 @@ function setupClock() {
 
 async function init() {
   setupTheme();
+  setupPalette();
   setupClock();
 
   try {

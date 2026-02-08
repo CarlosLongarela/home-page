@@ -6,6 +6,8 @@ Aplicación de página de inicio para el navegador que muestra enlaces organizad
 
 - **Configuración vía Markdown** - Los enlaces se definen en `bookmarks.md`, sin necesidad de editar HTML ni JS
 - **Tema claro/oscuro** - Toggle manual y detección automática de la preferencia del sistema, con persistencia en `localStorage`
+- **Paletas de color** - 4 esquemas de color (Oceano, Rosa, Bosque, Atardecer) seleccionables desde el header
+- **Enlace de edición** - El pie de página enlaza directamente al archivo `bookmarks.md` en GitHub (configurable)
 - **Búsqueda en tiempo real** - Filtra enlaces por nombre o URL. Atajo `/` para enfocar el buscador, `Escape` para limpiar
 - **Diseño responsive** - Grid adaptable a cualquier tamaño de pantalla
 - **Favicons automáticos** - Muestra el icono de cada sitio web
@@ -47,6 +49,7 @@ El archivo `bookmarks.md` sigue este formato:
 
 ```markdown
 # Título de la Página
+<!-- edit_url: https://github.com/tu-usuario/tu-repo/edit/main/bookmarks.md -->
 
 ## Nombre de la Sección
 <!-- color: #6366f1 -->
@@ -63,6 +66,7 @@ El archivo `bookmarks.md` sigue este formato:
 | Elemento | Sintaxis | Descripción |
 |---|---|---|
 | Título de página | `# Título` | Heading H1. Define el título principal que aparece en el header y en la pestaña del navegador |
+| URL de edición | `<!-- edit_url: URL -->` | Comentario HTML después del H1. Enlaza `bookmarks.md` en el footer a esa URL (ej. editar en GitHub). Opcional |
 | Sección | `## Nombre` | Heading H2. Crea una nueva tarjeta/recuadro |
 | Color | `<!-- color: #hex -->` | Comentario HTML justo después del H2. Define el color de la tarjeta. Si se omite, usa `#6366f1` por defecto |
 | Enlace | `- [Texto](URL)` | Elemento de lista con enlace markdown. Cada uno aparece como una fila dentro de la tarjeta |

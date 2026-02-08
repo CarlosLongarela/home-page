@@ -11,7 +11,7 @@
 
 ## Servicios de correo
 <!-- color: #ec4899 -->
-- [Reportes DMARC](https://dmarcreport.com)
+- [Informes DMARC](https://dmarcreport.com)
 - [Comprobar DNS Mail Workspace](https://toolbox.googleapps.com/apps/checkmx/)
 
 ## Herramientas IA
@@ -51,4 +51,3 @@
 - [YouTube](https://youtube.com)
 - [Spotify](https://open.spotify.com)
 - [SoundCloud](https://soundcloud.com)
-- [Pocket Casts](https://pocketcasts.com)

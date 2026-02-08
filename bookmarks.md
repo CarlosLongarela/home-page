@@ -11,6 +11,7 @@
 
 ## Servicios de correo
 <!-- color: #ec4899 -->
+- [Reportes DMARC](https://dmarcreport.com)
 - [Comprobar DNS Mail Workspace](https://toolbox.googleapps.com/apps/checkmx/)
 
 ## Herramientas IA
@@ -20,6 +21,7 @@
 - [Gemini](https://gemini.google.com)
 - [Perplexity](https://perplexity.ai)
 - [Hugging Face](https://huggingface.co)
+- [HeyGen](https://www.heygen.com/)
 
 ## Productividad
 <!-- color: #10b981 -->
@@ -31,11 +33,9 @@
 
 ## Noticias Tech
 <!-- color: #f59e0b -->
-- [Hacker News](https://news.ycombinator.com)
 - [TechCrunch](https://techcrunch.com)
 - [The Verge](https://theverge.com)
 - [Ars Technica](https://arstechnica.com)
-- [Lobsters](https://lobste.rs)
 
 ## Referencia
 <!-- color: #8b5cf6 -->
@@ -47,8 +47,8 @@
 
 ## Multimedia
 <!-- color: #ef4444 -->
+- [AudioHero](https://www.audiohero.com/)
 - [YouTube](https://youtube.com)
 - [Spotify](https://open.spotify.com)
-- [Twitch](https://twitch.tv)
 - [SoundCloud](https://soundcloud.com)
 - [Pocket Casts](https://pocketcasts.com)

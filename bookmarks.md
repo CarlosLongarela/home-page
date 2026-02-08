@@ -9,6 +9,10 @@
 - [Web.dev](https://web.dev)
 - [Smashing Magazine](https://smashingmagazine.com)
 
+## Servicios de correo
+<!-- color: #ec4899 -->
+- [Comprobar DNS Mail Workspace](https://toolbox.googleapps.com/apps/checkmx/)
+
 ## Herramientas IA
 <!-- color: #ec4899 -->
 - [ChatGPT](https://chat.openai.com)

@@ -6,14 +6,16 @@ Aplicación de página de inicio para el navegador que muestra enlaces organizad
 
 - **Configuración vía Markdown** - Los enlaces se definen en `bookmarks.md`, sin necesidad de editar HTML ni JS
 - **Tema claro/oscuro** - Toggle manual y detección automática de la preferencia del sistema, con persistencia en `localStorage`
-- **Paletas de color** - 4 esquemas de color (Oceano, Rosa, Bosque, Atardecer) seleccionables desde el header
+- **Paletas de color** - 4 esquemas de color (Oceano, Rosa, Bosque, Atardecer) que cambian el gradiente del título y los colores de fondo de toda la página
 - **Enlace de edición** - El pie de página enlaza directamente al archivo `bookmarks.md` en GitHub (configurable)
-- **Tarjetas colapsables** - Click en el título de una tarjeta para abrir/cerrar su contenido. El estado se persiste en `localStorage`
+- **Tarjetas colapsables** - Click en el título de una tarjeta para plegar/desplegar su contenido con animación suave. El estado se persiste en `localStorage`
+- **Recargar configuración** - Botón en el header para recargar `bookmarks.md` sin refrescar la página
 - **Reordenación con arrastrar** - Arrastra las tarjetas desde su título para recolocarlas. El orden se guarda en `localStorage`
 - **Búsqueda en tiempo real** - Filtra enlaces por nombre o URL. Atajo `/` para enfocar el buscador, `Escape` para limpiar
 - **Diseño responsive** - Grid adaptable a cualquier tamaño de pantalla
 - **Favicons automáticos** - Muestra el icono de cada sitio web
 - **Reloj en vivo** - Hora actual en la esquina inferior derecha
+- **Favicon SVG** - Icono de pestaña integrado sin archivos externos
 - **Animaciones suaves** - Entrada escalonada de tarjetas, con respeto a `prefers-reduced-motion`
 - **Sin frameworks** - HTML, CSS y JS vanilla. Sin dependencias externas
 
@@ -23,6 +25,7 @@ La hoja de estilos utiliza funcionalidades modernas de CSS:
 
 - Custom properties (variables) para todo el sistema de diseño
 - `color-mix()` para mezclas de color dinámicas
+- `grid-template-rows: 0fr/1fr` para animaciones de colapso
 - `backdrop-filter` para efecto glass en el header
 - Container queries para adaptar el contenido de cada tarjeta
 - `clamp()` para tipografía fluida
@@ -104,8 +107,9 @@ home-page/
 
 | Acción | Efecto |
 |---|---|
-| Click en título de tarjeta | Abre/cierra el contenido de la tarjeta |
+| Click en título de tarjeta | Pliega/despliega el contenido de la tarjeta con animación |
 | Arrastrar desde título de tarjeta | Reordena las tarjetas (se guarda automáticamente) |
+| Botón de recarga (header) | Recarga `bookmarks.md` sin refrescar la página |
 
 ## Atajos de teclado
 

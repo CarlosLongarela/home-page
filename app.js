@@ -183,7 +183,11 @@ function render(data) {
       linksList.append(li);
     }
 
-    card.append(header, linksList);
+    const body = document.createElement('div');
+    body.className = 'card__body';
+    body.append(linksList);
+
+    card.append(header, body);
     grid.append(card);
   }
 
@@ -495,12 +499,17 @@ function setupTheme() {
     const next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     localStorage.setItem('theme', next);
+    // Re-apply palette colors for new theme
+    const currentPalette = PALETTES[document.documentElement.dataset.palette];
+    if (currentPalette) applyPaletteColors(currentPalette);
   });
 
   // Listen for system theme changes
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {
       document.documentElement.dataset.theme = e.matches ? 'dark' : 'light';
+      const currentPalette = PALETTES[document.documentElement.dataset.palette];
+      if (currentPalette) applyPaletteColors(currentPalette);
     }
   });
 }
@@ -516,6 +525,8 @@ const PALETTES = {
     gradient: 'linear-gradient(135deg, #6366f1, #ec4899, #f59e0b)',
     focusColor: '#6366f1',
     focusShadow: 'rgba(99, 102, 241, 0.15)',
+    light: { bg: '#eef2ff', surface: '#ffffff', headerBg: 'rgba(238, 242, 255, 0.8)', inputBg: '#e0e7ff' },
+    dark:  { bg: '#0f172a', surface: '#1e293b', headerBg: 'rgba(15, 23, 42, 0.85)', inputBg: '#1e1b4b' },
   },
   rose: {
     label: 'Rosa',
@@ -523,6 +534,8 @@ const PALETTES = {
     gradient: 'linear-gradient(135deg, #e11d48, #f472b6, #fb923c)',
     focusColor: '#e11d48',
     focusShadow: 'rgba(225, 29, 72, 0.15)',
+    light: { bg: '#fff1f2', surface: '#ffffff', headerBg: 'rgba(255, 241, 242, 0.8)', inputBg: '#ffe4e6' },
+    dark:  { bg: '#1a0a10', surface: '#2d1520', headerBg: 'rgba(26, 10, 16, 0.85)', inputBg: '#3b0f1e' },
   },
   forest: {
     label: 'Bosque',
@@ -530,6 +543,8 @@ const PALETTES = {
     gradient: 'linear-gradient(135deg, #059669, #34d399, #fbbf24)',
     focusColor: '#059669',
     focusShadow: 'rgba(5, 150, 105, 0.15)',
+    light: { bg: '#ecfdf5', surface: '#ffffff', headerBg: 'rgba(236, 253, 245, 0.8)', inputBg: '#d1fae5' },
+    dark:  { bg: '#0a1a14', surface: '#152d23', headerBg: 'rgba(10, 26, 20, 0.85)', inputBg: '#0f3d2a' },
   },
   sunset: {
     label: 'Atardecer',
@@ -537,6 +552,8 @@ const PALETTES = {
     gradient: 'linear-gradient(135deg, #ea580c, #f59e0b, #eab308)',
     focusColor: '#ea580c',
     focusShadow: 'rgba(234, 88, 12, 0.15)',
+    light: { bg: '#fff7ed', surface: '#ffffff', headerBg: 'rgba(255, 247, 237, 0.8)', inputBg: '#ffedd5' },
+    dark:  { bg: '#1a120a', surface: '#2d1f15', headerBg: 'rgba(26, 18, 10, 0.85)', inputBg: '#3b1f0f' },
   },
 };
 
@@ -551,10 +568,25 @@ function applyPalette(name) {
   root.style.setProperty('--palette-focus-shadow', palette.focusShadow);
   root.dataset.palette = name;
 
+  // Apply palette background colors based on current theme
+  applyPaletteColors(palette);
+
   // Update active button state
   document.querySelectorAll('.palette-btn').forEach((btn) => {
     btn.classList.toggle('palette-btn--active', btn.dataset.palette === name);
   });
+}
+
+function applyPaletteColors(palette) {
+  if (!palette) return;
+  const root = document.documentElement;
+  const isDark = root.dataset.theme === 'dark';
+  const colors = isDark ? palette.dark : palette.light;
+
+  root.style.setProperty('--color-bg', colors.bg);
+  root.style.setProperty('--color-surface', colors.surface);
+  root.style.setProperty('--color-header-bg', colors.headerBg);
+  root.style.setProperty('--color-input-bg', colors.inputBg);
 }
 
 function setupPalette() {
@@ -579,6 +611,33 @@ function setupPalette() {
 
   const saved = localStorage.getItem('palette') || 'ocean';
   applyPalette(saved);
+}
+
+// ============================================
+// Reload Config
+// ============================================
+
+async function reloadBookmarks() {
+  try {
+    const response = await fetch(BOOKMARKS_FILE + '?t=' + Date.now());
+    if (!response.ok) throw new Error(response.status);
+    const markdown = await response.text();
+    const data = parseBookmarksMarkdown(markdown);
+    render(data);
+  } catch (error) {
+    console.error('Error recargando bookmarks:', error);
+  }
+}
+
+function setupReload() {
+  const btn = document.getElementById('reload-btn');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    btn.classList.add('header-btn--spin');
+    await reloadBookmarks();
+    setTimeout(() => btn.classList.remove('header-btn--spin'), 600);
+  });
 }
 
 // ============================================
@@ -608,6 +667,7 @@ function setupClock() {
 async function init() {
   setupTheme();
   setupPalette();
+  setupReload();
   setupClock();
 
   try {

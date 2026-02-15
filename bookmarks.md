@@ -17,6 +17,7 @@
 ## Herramientas
 <!-- color: #ec4899 -->
 - [Eliminar marcas de agua NotebookLM](https://notebooklmremover.com/es)
+- [Pandoc web, conversión de documentos](https://pandoc.org/app/)
 
 ## Herramientas IA
 <!-- color: #ec4899 -->

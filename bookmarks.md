@@ -18,6 +18,7 @@
 <!-- color: #ec4899 -->
 - [Eliminar marcas de agua NotebookLM](https://notebooklmremover.com/es)
 - [Pandoc web, conversión de documentos](https://pandoc.org/app/)
+- [Convertir ciudades a poster](https://github.com/originalankur/maptoposter)
 
 ## Herramientas IA
 <!-- color: #ec4899 -->

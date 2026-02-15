@@ -14,6 +14,10 @@
 - [Informes DMARC](https://dmarcreport.com)
 - [Comprobar DNS Mail Workspace](https://toolbox.googleapps.com/apps/checkmx/)
 
+## Herramientas
+<!-- color: #ec4899 -->
+- [Eliminar marcas de agua NotebookLM](https://notebooklmremover.com/es)
+
 ## Herramientas IA
 <!-- color: #ec4899 -->
 - [ChatGPT](https://chat.openai.com)

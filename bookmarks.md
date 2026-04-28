@@ -31,6 +31,7 @@
 - [Gemini](https://gemini.google.com)
 - [Perplexity](https://perplexity.ai)
 - [Hugging Face](https://huggingface.co)
+- [Clone Voice (Open Source)](https://voicebox.sh/)
 - [HeyGen](https://www.heygen.com/)
 
 ## Productividad

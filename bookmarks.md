@@ -64,13 +64,29 @@
 - [Spotify](https://open.spotify.com)
 - [SoundCloud](https://soundcloud.com)
 
-## Cursos Lifetime
+## Cursos Media Lifetime
 <!-- color: #10b981 -->
 - [Davinci Resolve RBG Escuela](https://rbgescuela.com/cursos/davinci-resolve/)
 - [Davinci Resolve Aura Prods](https://academy.auraprods.com/courses/davinci-resolve/)
-- [CSS]
-- [Inglés]
+- [Curso MusicHacks (entiende la música clásica)](https://www.musihacks.com/products/entiende-la-musica-clasica)
 
+## Cursos Dev Lifetime
+<!-- color: #10b981 -->
+- [Curso CSS for JavaScript Developers](https://courses.joshwcomeau.com/css-for-js)
+- [Curso The Joy of React](https://courses.joshwcomeau.com/joy-of-react)
+- [Aprende React Desde Cero](https://www.youtube.com/watch?v=6Jfk8ic3KVk&t=10159s)
+- [Introducción a Git](https://learn.microsoft.com/es-es/training/modules/intro-to-git/)
+- [Practical Accessibility](https://practical-accessibility.today/)
+- [WordPress Atarim](https://academy.atarim.io/full-access-pass)
+
+## Cursos Idiomas Lifetime
+<!-- color: #10b981 -->
+- [The Idioms Challenge](https://englishwithlucy.teachable.com/courses/enrolled/)
+- [The Business English Challenge](https://englishwithlucy.teachable.com/courses/enrolled/)
+- [The Grammar Challenge](https://englishwithlucy.teachable.com/courses/enrolled/)
+- [The Grammar Challenge Extra Exercise Pack](https://englishwithlucy.teachable.com/courses/enrolled/)
+- [The Slang Challenge](https://englishwithlucy.teachable.com/courses/enrolled/)
+- [Inglés conversacional IA](https://speechanalyzer.elsaspeak.com/welcome)
   
 ## Economía
 <!-- color: #6366f1 -->

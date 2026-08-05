@@ -37,6 +37,7 @@
 ## Productividad
 <!-- color: #10b981 -->
 - [GitHub](https://github.com)
+- [Linear](https://linear.app/)
 - [Notion](https://notion.so)
 - [Figma](https://figma.com)
 - [Trello](https://trello.com)
@@ -63,6 +64,14 @@
 - [Spotify](https://open.spotify.com)
 - [SoundCloud](https://soundcloud.com)
 
+## Cursos Lifetime
+<!-- color: #10b981 -->
+- [Davinci Resolve RBG Escuela](https://rbgescuela.com/cursos/davinci-resolve/)
+- [Davinci Resolve Aura Prods](https://academy.auraprods.com/courses/davinci-resolve/)
+- [CSS]
+- [Inglés]
+
+  
 ## Economía
 <!-- color: #6366f1 -->
 - [Facturas Automattic](https://suppliers.tipalti.com/Automattic/account/Login)

@@ -258,38 +258,25 @@ a {
   transition: opacity var(--transition-fast);
 }
 
-.lock-icon--unlocked {
-  opacity: 0;
-}
-
-.drag-locked .lock-icon--locked {
-  opacity: 1;
-}
-
-.drag-locked .lock-icon--unlocked {
-  opacity: 0;
-}
-
-:not(.drag-locked) .lock-icon--locked {
-  opacity: 0;
-}
-
-:not(.drag-locked) .lock-icon--unlocked {
-  opacity: 1;
-}
-
 #lock-btn {
   display: grid;
   place-items: center;
 }
 
-:not(.drag-locked) #lock-btn {
+/* Locked (default): show locked icon, hide unlocked */
+.lock-icon--locked { opacity: 1; }
+.lock-icon--unlocked { opacity: 0; }
+
+/* Unlocked: swap icons, highlight button, grab cursor */
+html:not(.drag-locked) .lock-icon--locked { opacity: 0; }
+html:not(.drag-locked) .lock-icon--unlocked { opacity: 1; }
+
+html:not(.drag-locked) #lock-btn {
   border-color: var(--palette-accent);
   color: var(--palette-accent);
 }
 
-/* When unlocked, show grab cursor on card headers */
-:not(.drag-locked) .card__header {
+html:not(.drag-locked) .card__header {
   cursor: grab;
 }
 

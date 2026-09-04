@@ -252,6 +252,47 @@ a {
   color: var(--palette-accent);
 }
 
+/* Lock button icon states */
+.lock-icon {
+  grid-area: 1 / 1;
+  transition: opacity var(--transition-fast);
+}
+
+.lock-icon--unlocked {
+  opacity: 0;
+}
+
+.drag-locked .lock-icon--locked {
+  opacity: 1;
+}
+
+.drag-locked .lock-icon--unlocked {
+  opacity: 0;
+}
+
+:not(.drag-locked) .lock-icon--locked {
+  opacity: 0;
+}
+
+:not(.drag-locked) .lock-icon--unlocked {
+  opacity: 1;
+}
+
+#lock-btn {
+  display: grid;
+  place-items: center;
+}
+
+:not(.drag-locked) #lock-btn {
+  border-color: var(--palette-accent);
+  color: var(--palette-accent);
+}
+
+/* When unlocked, show grab cursor on card headers */
+:not(.drag-locked) .card__header {
+  cursor: grab;
+}
+
 .header-btn--spin svg {
   animation: spin 600ms ease;
 }

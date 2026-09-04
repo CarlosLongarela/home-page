@@ -435,19 +435,39 @@ a {
 }
 
 .card__links {
+  --card-max-height: 280px;
   list-style: none;
   padding: var(--space-sm) var(--space-lg) var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
   overflow: hidden;
+  overflow-y: auto;
+  max-height: var(--card-max-height);
   min-height: 0;
-  transition: opacity var(--transition-base), padding var(--transition-base);
+  transition: opacity var(--transition-base), padding var(--transition-base), max-height var(--transition-base);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.card__links::-webkit-scrollbar {
+  width: 4px;
+}
+
+.card__links::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.card__links::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .card--collapsed .card__links {
   padding-top: 0;
   padding-bottom: 0;
+  max-height: 0;
+  overflow: hidden;
   opacity: 0;
 }
 

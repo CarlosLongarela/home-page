@@ -252,6 +252,47 @@ a {
   color: var(--palette-accent);
 }
 
+/* Lock button icon states */
+.lock-icon {
+  grid-area: 1 / 1;
+  transition: opacity var(--transition-fast);
+}
+
+.lock-icon--unlocked {
+  opacity: 0;
+}
+
+.drag-locked .lock-icon--locked {
+  opacity: 1;
+}
+
+.drag-locked .lock-icon--unlocked {
+  opacity: 0;
+}
+
+:not(.drag-locked) .lock-icon--locked {
+  opacity: 0;
+}
+
+:not(.drag-locked) .lock-icon--unlocked {
+  opacity: 1;
+}
+
+#lock-btn {
+  display: grid;
+  place-items: center;
+}
+
+:not(.drag-locked) #lock-btn {
+  border-color: var(--palette-accent);
+  color: var(--palette-accent);
+}
+
+/* When unlocked, show grab cursor on card headers */
+:not(.drag-locked) .card__header {
+  cursor: grab;
+}
+
 .header-btn--spin svg {
   animation: spin 600ms ease;
 }
@@ -297,6 +338,7 @@ a {
 .grid {
   display: grid;
   grid-template-columns: var(--grid-columns);
+  align-items: start;
   gap: var(--space-lg);
   padding: var(--space-xl);
   max-width: 1600px;
@@ -393,19 +435,39 @@ a {
 }
 
 .card__links {
+  --card-max-height: 280px;
   list-style: none;
   padding: var(--space-sm) var(--space-lg) var(--space-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
   overflow: hidden;
+  overflow-y: auto;
+  max-height: var(--card-max-height);
   min-height: 0;
-  transition: opacity var(--transition-base), padding var(--transition-base);
+  transition: opacity var(--transition-base), padding var(--transition-base), max-height var(--transition-base);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.card__links::-webkit-scrollbar {
+  width: 4px;
+}
+
+.card__links::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.card__links::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .card--collapsed .card__links {
   padding-top: 0;
   padding-bottom: 0;
+  max-height: 0;
+  overflow: hidden;
   opacity: 0;
 }
 

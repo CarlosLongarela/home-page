@@ -5,6 +5,8 @@
 
 const BOOKMARKS_FILE = 'bookmarks.md';
 
+let dragLocked = true;
+
 // ============================================
 // Markdown Parser
 // ============================================
@@ -263,6 +265,30 @@ function setupCollapse() {
 }
 
 // ============================================
+// Lock / Unlock Drag
+// ============================================
+
+function applyLockState(locked) {
+  dragLocked = locked;
+  document.documentElement.classList.toggle('drag-locked', locked);
+}
+
+function setupLock() {
+  const btn = document.getElementById('lock-btn');
+  if (!btn) return;
+
+  const saved = localStorage.getItem('dragLocked');
+  applyLockState(saved !== 'false');
+
+  btn.addEventListener('click', () => {
+    dragLocked = !dragLocked;
+    applyLockState(dragLocked);
+    localStorage.setItem('dragLocked', String(dragLocked));
+    btn.title = dragLocked ? 'Desbloquear posición' : 'Bloquear posición';
+  });
+}
+
+// ============================================
 // Drag & Drop Reorder
 // ============================================
 
@@ -333,6 +359,8 @@ function setupDragAndDrop() {
   // --- Pointer-based drag (works for mouse + touch) ---
 
   function onPointerDown(e) {
+    if (dragLocked) return;
+
     const header = e.target.closest('.card__header');
     if (!header) return;
     // Ignore if clicking links or buttons inside header
@@ -667,6 +695,7 @@ function setupClock() {
 async function init() {
   setupTheme();
   setupPalette();
+  setupLock();
   setupReload();
   setupClock();
 

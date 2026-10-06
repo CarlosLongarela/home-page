@@ -20,6 +20,7 @@
 
 ## Herramientas
 <!-- color: #ec4899 -->
+- [Crear Apps de escritorio: TinyJS](https://tinyjs.app/index.html)
 - [Eliminar marcas de agua NotebookLM](https://notebooklmremover.com/es)
 - [Pandoc web, conversión de documentos](https://pandoc.org/app/)
 - [Convertir ciudades a poster](https://github.com/originalankur/maptoposter)
